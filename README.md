@@ -37,11 +37,11 @@ Você precisará clonar os seguintes repositórios do projeto:
 ### 📂 Estrutura de Pastas Obrigatória
 Para que os arquivos de orquestração local (Docker Compose) referenciem os projetos corretamente, você **deve** respeitar a seguinte estrutura de diretórios no seu disco:
 
+Veja um exemplo através da imagem: https://github.com/rodrigosiqsilva/FIAP.PosTech.ArqSistemas.Orchestrator/blob/main/Estrututa%20pastas.png
+
 ```text
 C:\Sistemas\FIAP\     <- (Arquivos de orquestração os 4 yamls mencionados aqui)
 ├── FIAP.PosTech.ArqSistemas.Catalog/
 ├── FIAP.PosTech.ArqSistemas.User/
 ├── FIAP.PosTech.ArqSistemas.Notification/
 └── FIAP.PosTech.ArqSistemas.Payments/
-
-Veja um exemplo através da imagem: https://github.com/rodrigosiqsilva/FIAP.PosTech.ArqSistemas.Orchestrator/blob/main/Estrututa%20pastas.png
