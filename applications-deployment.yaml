@@ -1,0 +1,175 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: catalog-api
+  labels:
+    app: catalog-api
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: catalog-api
+  template:
+    metadata:
+      labels:
+        app: catalog-api
+    spec:
+      containers:
+      - name: catalog-api
+        image: rodrigosiqsilva/catalog-api:latest 
+        ports:
+        - containerPort: 4040
+        - containerPort: 4041
+        env:
+        - name: ASPNETCORE_ENVIRONMENT
+          value: "Production"
+        - name: ASPNETCORE_URLS
+          value: "http://+:4040;https://+:4041"
+        envFrom:
+        - configMapRef:
+            name: catalog-api-configmap
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: catalog-api-service
+spec:
+  selector:
+    app: catalog-api
+  ports:
+  - name: http
+    port: 4040
+    targetPort: 4040
+  - name: https
+    port: 4041
+    targetPort: 4041
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-api
+  labels:
+    app: user-api
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: user-api
+  template:
+    metadata:
+      labels:
+        app: user-api
+    spec:
+      containers:
+      - name: user-api
+        image: rodrigosiqsilva/user-api:latest
+        ports:
+        - containerPort: 7070
+        - containerPort: 7071
+        env:
+        - name: ASPNETCORE_ENVIRONMENT
+          value: "Production"
+        - name: ASPNETCORE_URLS
+          value: "http://+:7070;https://+:7071"
+        envFrom:
+        - configMapRef:
+            name: user-api-configmap
+        - secretRef:
+            name: user-api-secret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-api-service
+spec:
+  selector:
+    app: user-api
+  ports:
+  - name: http
+    port: 7070
+    targetPort: 7070
+  - name: https
+    port: 7071
+    targetPort: 7071
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: catalog-ws
+  labels:
+    app: catalog-ws
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: catalog-ws
+  template:
+    metadata:
+      labels:
+        app: catalog-ws
+    spec:
+      containers:
+      - name: catalog-ws
+        image: rodrigosiqsilva/catalog-ws:latest
+        env:
+        - name: DOTNET_ENVIRONMENT
+          value: "Production"
+        envFrom:
+        - configMapRef:
+            name: catalog-ws-configmap
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: notification-ws
+  labels:
+    app: notification-ws
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: notification-ws
+  template:
+    metadata:
+      labels:
+        app: notification-ws
+    spec:
+      containers:
+      - name: notification-ws
+        image: rodrigosiqsilva/notification-ws:latest
+        env:
+        - name: DOTNET_ENVIRONMENT
+          value: "Production"
+        envFrom:
+        - configMapRef:
+            name: notification-ws-configmap
+        - secretRef:
+            name: notification-ws-secret
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: payment-ws
+  labels:
+    app: payment-ws
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: payment-ws
+  template:
+    metadata:
+      labels:
+        app: payment-ws
+    spec:
+      containers:
+      - name: payment-ws
+        image: rodrigosiqsilva/payment-ws:latest
+        env:
+        - name: DOTNET_ENVIRONMENT
+          value: "Production"
+        envFrom:
+        - configMapRef:
+            name: payment-ws-configmap
+        - secretRef:
+            name: payment-ws-secret

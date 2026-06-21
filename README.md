@@ -8,10 +8,16 @@ Centraliza e armazena todos os manifestos e arquivos de configuração necessár
 
 Este repositório contém os seguintes arquivos de configuração:
 
-* **`docker-compose.yml`**: Utilizado para orquestrar e rodar os containers em ambiente de desenvolvimento **local**.
+* **`docker-compose.yaml`**: Utilizado para orquestrar e rodar os containers em ambiente de desenvolvimento **local**.
 * **`kafka-infra.yaml`**: Manifesto Kubernetes para subir a infraestrutura do Kafka.
-* **`apis-deployment.yaml`**: Manifesto Kubernetes para deploy das APIs (`catalog-api` e `user-api`).
-* **`workers-deployment.yaml`**: Manifesto Kubernetes para deploy dos serviços de background (Workers).
+* **`config-and-secrets.yaml`**: Manifesto Kubernetes para deploy das configurações e segredos das APIs (`catalog-api` e `user-api`) e dos serviços de background (Workers).
+* **`applications-deployment.yaml`**: Manifesto Kubernetes para deploy das APIs (`catalog-api` e `user-api`) e dos serviços de background (Workers).
+
+# 1. Cria todas as configurações e secrets primeiro
+kubectl apply -f config-and-secrets.yaml
+
+# 2. Sobe as APIs e os Workers consumindo os dados criados acima
+kubectl apply -f applications-deployment.yaml
 
 ---
 
