@@ -20,7 +20,7 @@ Este repositório contém os seguintes arquivos de configuração e scripts:
 
 #### 1. Execução via Docker (Desenvolvimento Local)
 
-
+```bash
 # Subir os containers das aplicações e serviços base
 docker compose up -d
 
@@ -32,10 +32,11 @@ docker compose -f docker-localstack.yml up -d
 
 # Subir o API Gateway Kong, Banco de Dados e Konga
 docker compose -f docker-compose-kong.yml up -d
-
+```
 
 #### 2. Execução via Kubernetes
 
+```bash
 # 1. Sobe a infraestrutura do Kafka
 kubectl apply -f kafka-infra.yaml
 
@@ -44,7 +45,7 @@ kubectl apply -f config-and-secrets.yaml
 
 # 3. Sobe as APIs e os Workers consumindo os dados criados acima
 kubectl apply -f applications-deployment.yaml
-
+```
 
 ---
 
