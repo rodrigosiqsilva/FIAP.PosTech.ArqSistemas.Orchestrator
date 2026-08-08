@@ -13,6 +13,7 @@ Este repositório contém os seguintes arquivos de configuração e scripts:
 * **`deploy-localstack.ps1`**: Script PowerShell para automatizar a compilação, o deploy e a configuração da função Lambda de notificações e o mapeamento de gatilhos do Kafka no LocalStack.
 * **`docker-compose-kong.yml`**: Arquivo Docker Compose para orquestração da infraestrutura do API Gateway **Kong**, seu banco de dados PostgreSQL e a interface visual **Konga**.
 * **`docker-compose-zabbix.yaml`**: Arquivo Docker Compose para subir a infraestrutura de monitoramento do **Zabbix** (Server, Web Interface, Agent e banco PostgreSQL).
+* **`docker-compose - zabbix e prometheus.yaml`**: Arquivo Docker Compose para subir a infraestrutura de monitoramento combinada do **Zabbix** e **Prometheus** (incluindo aplicação .NET para exportação de métricas).
 * **`kafka-infra.yaml`**: Manifesto Kubernetes para subir a infraestrutura do Kafka.
 * **`config-and-secrets.yaml`**: Manifesto Kubernetes para deploy das configurações e segredos das APIs (`catalog-api` e `user-api`) e dos serviços de background (Workers).
 * **`applications-deployment.yaml`**: Manifesto Kubernetes para deploy das APIs (`catalog-api` e `user-api`) e dos serviços de background (Workers).
@@ -36,6 +37,9 @@ docker compose -f docker-compose-kong.yml up -d
 
 # Subir a infraestrutura de monitoramento do Zabbix
 docker compose -f docker-compose-zabbix.yaml up -d
+
+# Subir a infraestrutura de monitoramento do Zabbix e Prometheus
+docker compose -f "docker-compose - zabbix e prometheus.yaml" up -d
 ```
 
 #### 2. Execução via Kubernetes
