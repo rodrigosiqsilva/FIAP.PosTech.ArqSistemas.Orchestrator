@@ -14,6 +14,7 @@ Este repositório contém os seguintes arquivos de configuração e scripts:
 * **`docker-compose-kong.yml`**: Arquivo Docker Compose para orquestração da infraestrutura do API Gateway **Kong**, seu banco de dados PostgreSQL e a interface visual **Konga**.
 * **`docker-compose-zabbix.yaml`**: Arquivo Docker Compose para subir a infraestrutura de monitoramento do **Zabbix** (Server, Web Interface, Agent e banco PostgreSQL).
 * **`docker-compose - zabbix e prometheus.yaml`**: Arquivo Docker Compose para subir a infraestrutura de monitoramento combinada do **Zabbix** e **Prometheus** (incluindo aplicação .NET para exportação de métricas).
+* **`docker-compose - zabbix e prometheus e grafana.yaml`**: Arquivo Docker Compose para subir a infraestrutura completa de monitoramento combinando **Zabbix**, **Prometheus** e **Grafana** (incluindo visualizações e dashboards em tempo real).
 * **`kafka-infra.yaml`**: Manifesto Kubernetes para subir a infraestrutura do Kafka.
 * **`config-and-secrets.yaml`**: Manifesto Kubernetes para deploy das configurações e segredos das APIs (`catalog-api` e `user-api`) e dos serviços de background (Workers).
 * **`applications-deployment.yaml`**: Manifesto Kubernetes para deploy das APIs (`catalog-api` e `user-api`) e dos serviços de background (Workers).
@@ -40,6 +41,9 @@ docker compose -f docker-compose-zabbix.yaml up -d
 
 # Subir a infraestrutura de monitoramento do Zabbix e Prometheus
 docker compose -f "docker-compose - zabbix e prometheus.yaml" up -d
+
+# Subir a infraestrutura completa de monitoramento (Zabbix, Prometheus e Grafana)
+docker compose -f "docker-compose - zabbix e prometheus e grafana.yaml" up -d
 ```
 
 #### 2. Execução via Kubernetes
