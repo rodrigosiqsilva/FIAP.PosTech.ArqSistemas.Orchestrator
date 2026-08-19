@@ -12,9 +12,11 @@ Este repositório contém os seguintes arquivos de configuração e scripts:
 * **`docker-localstack.yml`**: Arquivo de configuração Docker Compose para subir o container do **LocalStack** (emulação de serviços AWS).
 * **`deploy-localstack.ps1`**: Script PowerShell para automatizar a compilação, o deploy e a configuração da função Lambda de notificações e o mapeamento de gatilhos do Kafka no LocalStack.
 * **`docker-compose-kong.yml`**: Arquivo Docker Compose para orquestração da infraestrutura do API Gateway **Kong**, seu banco de dados PostgreSQL e a interface visual **Konga**.
+* **`docker-compose-mongodb.yaml`**: Arquivo Docker Compose para orquestração do banco de dados **MongoDB** e da interface visual **Mongo Express** (com suporte à conexão via **MongoDB Compass**).
 * **`docker-compose-zabbix.yaml`**: Arquivo Docker Compose para subir a infraestrutura de monitoramento do **Zabbix** (Server, Web Interface, Agent e banco PostgreSQL).
 * **`docker-compose - zabbix e prometheus.yaml`**: Arquivo Docker Compose para subir a infraestrutura de monitoramento combinada do **Zabbix** e **Prometheus** (incluindo aplicação .NET para exportação de métricas).
 * **`docker-compose - zabbix e prometheus e grafana.yaml`**: Arquivo Docker Compose para subir a infraestrutura completa de monitoramento combinando **Zabbix**, **Prometheus** e **Grafana** (incluindo visualizações e dashboards em tempo real).
+* **`fiap-apis-dashboard.json`**: Arquivo JSON contendo o Dashboard pré-configurado do Grafana para monitoramento em tempo real da `CatalogAPI` e `UserAPI` (latência, contagem de requisições e taxa de erros).
 * **`kafka-infra.yaml`**: Manifesto Kubernetes para subir a infraestrutura do Kafka.
 * **`config-and-secrets.yaml`**: Manifesto Kubernetes para deploy das configurações e segredos das APIs (`catalog-api` e `user-api`) e dos serviços de background (Workers).
 * **`applications-deployment.yaml`**: Manifesto Kubernetes para deploy das APIs (`catalog-api` e `user-api`) e dos serviços de background (Workers).
@@ -35,6 +37,9 @@ docker compose -f docker-localstack.yml up -d
 
 # Subir o API Gateway Kong, Banco de Dados e Konga
 docker compose -f docker-compose-kong.yml up -d
+
+# Subir o banco de dados MongoDB e Mongo Express
+docker compose -f docker-compose-mongodb.yaml up -d
 
 # Subir a infraestrutura de monitoramento do Zabbix
 docker compose -f docker-compose-zabbix.yaml up -d
@@ -58,6 +63,27 @@ kubectl apply -f config-and-secrets.yaml
 # 3. Sobe as APIs e os Workers consumindo os dados criados acima
 kubectl apply -f applications-deployment.yaml
 ```
+
+#### 3. Importação do Dashboard no Grafana
+
+1. Acesse o Grafana em **[http://localhost:3000](http://localhost:3000)** (Usuário: `admin` | Senha: `admin`).
+2. Caso ainda não tenha a fonte de dados configurada, acesse **Connections -> Data sources -> Add data source**, selecione **Prometheus**, informe a URL `http://host.docker.internal:9090` (ou `http://prometheus:9090`) e clique em **Save & test**.
+3. No menu lateral, acesse **Dashboards -> New -> Import**.
+4. Clique em **Upload dashboard JSON file** e selecione o arquivo:
+   `C:\Sistemas\FIAP\FIAP.PosTech.ArqSistemas.Orchestrator\fiap-apis-dashboard.json`
+5. Selecione a fonte de dados **Prometheus** e clique no botão **Import**.
+
+#### 4. Conexão ao MongoDB (MongoDB Compass / Mongo Express)
+
+1. **MongoDB Compass (Desktop App)**:
+   - Abra o **MongoDB Compass** no Windows.
+   - Na tela inicial, cole a string de conexão:
+     `mongodb://admin:adminpassword@localhost:27017`
+   - Clique em **Connect**.
+
+2. **Mongo Express (Interface Web)**:
+   - Acesse **[http://localhost:8081](http://localhost:8081)** no navegador.
+   - Utilize as credenciais de Acesso Básico: Usuário `admin` | Senha `admin`.
 
 ---
 
