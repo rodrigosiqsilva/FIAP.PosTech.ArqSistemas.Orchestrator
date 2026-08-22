@@ -13,6 +13,7 @@ Este repositório contém os seguintes arquivos de configuração e scripts:
 * **`deploy-localstack.ps1`**: Script PowerShell para automatizar a compilação, o deploy e a configuração da função Lambda de notificações e o mapeamento de gatilhos do Kafka no LocalStack.
 * **`docker-compose-kong.yml`**: Arquivo Docker Compose para orquestração da infraestrutura do API Gateway **Kong**, seu banco de dados PostgreSQL e a interface visual **Konga**.
 * **`docker-compose-mongodb.yaml`**: Arquivo Docker Compose para orquestração do banco de dados **MongoDB** e da interface visual **Mongo Express** (com suporte à conexão via **MongoDB Compass**).
+* **`docker-compose-redis.yaml`**: Arquivo Docker Compose para orquestração do banco de dados/cache em memória **Redis** (com persistência AOF habilitada) e da interface visual **Redis Insight**.
 * **`docker-compose-zabbix.yaml`**: Arquivo Docker Compose para subir a infraestrutura de monitoramento do **Zabbix** (Server, Web Interface, Agent e banco PostgreSQL).
 * **`docker-compose - zabbix e prometheus.yaml`**: Arquivo Docker Compose para subir a infraestrutura de monitoramento combinada do **Zabbix** e **Prometheus** (incluindo aplicação .NET para exportação de métricas).
 * **`docker-compose - zabbix e prometheus e grafana.yaml`**: Arquivo Docker Compose para subir a infraestrutura completa de monitoramento combinando **Zabbix**, **Prometheus** e **Grafana** (incluindo visualizações e dashboards em tempo real).
@@ -40,6 +41,9 @@ docker compose -f docker-compose-kong.yml up -d
 
 # Subir o banco de dados MongoDB e Mongo Express
 docker compose -f docker-compose-mongodb.yaml up -d
+
+# Subir o banco de dados/cache Redis e Redis Insight
+docker compose -f docker-compose-redis.yaml up -d
 
 # Subir a infraestrutura de monitoramento do Zabbix
 docker compose -f docker-compose-zabbix.yaml up -d
@@ -84,6 +88,18 @@ kubectl apply -f applications-deployment.yaml
 2. **Mongo Express (Interface Web)**:
    - Acesse **[http://localhost:8081](http://localhost:8081)** no navegador.
    - Utilize as credenciais de Acesso Básico: Usuário `admin` | Senha `admin`.
+
+#### 5. Conexão ao Redis (Redis Insight / DataGrip)
+
+1. **Redis Insight (Interface Web)**:
+   - Acesse **[http://localhost:5540](http://localhost:5540)** no navegador.
+   - Adicione uma nova conexão:
+     - **Host**: `redis` (se conectar pela rede do Docker) ou `localhost` / `host.docker.internal`
+     - **Port**: `6379`
+
+2. **DataGrip / Desktop Apps**:
+   - Adicione um Data Source do tipo **Redis**.
+   - Host: `localhost`, Porta: `6379`.
 
 ---
 
